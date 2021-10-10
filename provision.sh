@@ -66,7 +66,7 @@ grep -q " $K8S_NODE_NAME\$" /etc/hosts || echo "$K8S_NODE_IP $K8S_NODE_NAME" | t
 # Install Kubernetes
 echo "=== Installing K8S ==="
 ### CRI-O/K8S/WireGuard
-for PKG in cri-o cri-tools kubelet-${K8S_VERSION} kubeadm-${K8S_VERSION} kubectl-${K8S_VERSION} wireguard-tools kmod-wireguard; do
+for PKG in cri-o cri-tools kubectl-${K8S_VERSION} kubelet-${K8S_VERSION} kubeadm-${K8S_VERSION} wireguard-tools kmod-wireguard; do
 	rpm -q $PKG || yum -y install $PKG --disableexcludes=kubernetes
 done
 ### Calico client

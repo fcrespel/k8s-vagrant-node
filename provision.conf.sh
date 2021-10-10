@@ -1,9 +1,9 @@
 #!/bin/sh
 
 # Versions
-CRIO_VERSION="1.18"
+CRIO_VERSION="1.20"
 CALICO_VERSION="3.19.1"
-K8S_VERSION="1.18.9"
+K8S_VERSION="1.20.10"
 
 # Cluster config
 K8S_POD_CIDR="10.244.0.0/16"

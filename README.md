@@ -39,10 +39,13 @@ Then, update the worker `provision.conf.sh`:
 
 Start the VM by running `vagrant up` in the repository directory. The provisioning script will take some time to install and configure the node.
 
-When done, you should restart the VM with `vagrant reload` to make sure the updated kernel and modules are properly loaded.
+When done or if an error occurs, you should restart the VM with `vagrant reload` to make sure the updated kernel and modules are properly loaded.
 
 After that, you may get a shell in the VM with `vagrant ssh`, and run commands such as the following:
 ```
+# Switch to root
+sudo su -
+
 # Check pod/deployment status
 kubectl get all -A
 
