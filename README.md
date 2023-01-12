@@ -59,6 +59,6 @@ wg
 crictl ps
 ```
 
-If everything is OK, you may deploy pods with `kubectl` or `helm`, or configure Calico resources with `calicoctl`.
+If everything is OK, you may deploy pods with `kubectl` or `helm`, or configure Calico resources with `calicoctl`. You may also use `k9s` to get an interactive text-based interface.
 
 Note that Ingress Nginx is preinstalled and exposed on node ports 30080 (HTTP) and 30443 (HTTPS).
