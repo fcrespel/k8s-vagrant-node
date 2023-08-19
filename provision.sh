@@ -80,7 +80,7 @@ rm -f /tmp/etcd.tar.gz
 ### Helm
 curl -fsSL "https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3" | HELM_INSTALL_DIR=/usr/bin bash -s
 ### k9s
-curl -fsSL "https://github.com/derailed/k9s/releases/download/v${K9S_VERSION}/k9s_Linux_x86_64.tar.gz" -o /tmp/k9s.tar.gz
+curl -fsSL "https://github.com/derailed/k9s/releases/download/v${K9S_VERSION}/k9s_Linux_amd64.tar.gz" -o /tmp/k9s.tar.gz
 tar -x -C /usr/local/bin -f /tmp/k9s.tar.gz k9s
 rm -f /tmp/k9s.tar.gz
 
