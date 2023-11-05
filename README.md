@@ -5,6 +5,7 @@ This repository contains a [Vagrant](https://www.vagrantup.com) VM to run a Kube
 - [Calico](https://www.projectcalico.org) as the network plugin
 - [WireGuard](https://www.wireguard.com) to encrypt communication between nodes
 - [Ingress Nginx](https://kubernetes.github.io/ingress-nginx/) to expose ingress resources
+- [OpenEBS](https://openebs.io) to support local persistent volumes
 
 ## Prerequisites
 
@@ -59,6 +60,6 @@ wg
 crictl ps
 ```
 
-If everything is OK, you may deploy pods with `kubectl` or `helm`, or configure Calico resources with `calicoctl`. You may also use `k9s` to get an interactive text-based interface.
+If everything is OK, you may deploy pods with `kubectl` or `helm`, or configure Calico resources with `calicoctl`. You may also use `k9s` to get an interactive text-based interface; `kubectx` and `kubens` utilities are also available.
 
 Note that Ingress Nginx is preinstalled and exposed on node ports 30080 (HTTP) and 30443 (HTTPS).
