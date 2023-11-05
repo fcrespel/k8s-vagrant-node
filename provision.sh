@@ -83,6 +83,10 @@ curl -fsSL "https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-
 curl -fsSL "https://github.com/derailed/k9s/releases/download/v${K9S_VERSION}/k9s_Linux_amd64.tar.gz" -o /tmp/k9s.tar.gz
 tar -x -C /usr/local/bin -f /tmp/k9s.tar.gz k9s
 rm -f /tmp/k9s.tar.gz
+### kubectx
+curl -fsSL "https://github.com/ahmetb/kubectx/releases/download/v${KUBECTX_VERSION}/kubectx" -o /usr/local/bin/kubectx && chmod +x /usr/local/bin/kubectx
+### kubens
+curl -fsSL "https://github.com/ahmetb/kubectx/releases/download/v${KUBENS_VERSION}/kubens" -o /usr/local/bin/kubens && chmod +x /usr/local/bin/kubens
 
 # Configure Kubernetes
 echo "=== Configuring K8S ==="
@@ -170,6 +174,12 @@ if [ "$K8S_NODE_ROLE" = "master" ]; then
 	helm repo update ingress-nginx
 	helm upgrade ingress-nginx ingress-nginx/ingress-nginx --install --version $INGRESS_NGINX_VERSION --namespace ingress-nginx --create-namespace -f ingress-nginx.yaml
 	rm -f ingress-nginx.yaml
+
+	## Install OpenEBS
+	echo "=== Installing OpenEBS ==="
+	helm repo add openebs https://openebs.github.io/charts
+	helm repo update openebs
+	helm upgrade openebs openebs/openebs --install --version $OPENEBS_VERSION --namespace openebs --create-namespace --set localprovisioner.hostpathClass.isDefaultClass=true
 
 elif [ "$K8S_NODE_ROLE" = "worker" ]; then
 	## Worker
