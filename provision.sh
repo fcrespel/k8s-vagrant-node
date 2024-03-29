@@ -11,18 +11,25 @@ source "/tmp/provision.conf.sh"
 # Add package repositories
 echo "=== Adding repositories ==="
 ## CRI-O
-curl -fsSL "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/CentOS_8/devel:kubic:libcontainers:stable.repo" -o "/etc/yum.repos.d/devel:kubic:libcontainers:stable.repo"
-curl -fsSL "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/${CRIO_VERSION}/CentOS_8/devel:kubic:libcontainers:stable:cri-o:${CRIO_VERSION}.repo" -o "/etc/yum.repos.d/devel:kubic:libcontainers:stable:cri-o:${CRIO_VERSION}.repo"
+cat > /etc/yum.repos.d/cri-o.repo <<EOF
+[cri-o]
+name=CRI-O
+baseurl=https://pkgs.k8s.io/addons:/cri-o:/stable:/v${K8S_VERSION_MINOR}/rpm/
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://pkgs.k8s.io/addons:/cri-o:/stable:/v${K8S_VERSION_MINOR}/rpm/repodata/repomd.xml.key
+EOF
 ## Kubernetes
 cat > /etc/yum.repos.d/kubernetes.repo <<EOF
 [kubernetes]
 name=Kubernetes
-baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
+baseurl=https://pkgs.k8s.io/core:/stable:/v${K8S_VERSION_MINOR}/rpm/
 enabled=1
 gpgcheck=1
 repo_gpgcheck=1
-gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
-exclude=kubelet kubeadm kubectl
+gpgkey=https://pkgs.k8s.io/core:/stable:/v${K8S_VERSION_MINOR}/rpm/repodata/repomd.xml.key
+exclude=cri-tools kubelet kubeadm kubectl kubernetes-cni
 EOF
 ## EPEL/ELRepo
 for PKG in epel-release elrepo-release yum-utils; do
