@@ -75,7 +75,7 @@ grep -q " $K8S_NODE_NAME\$" /etc/hosts || echo "$K8S_NODE_IP $K8S_NODE_NAME" | t
 # Install Kubernetes
 echo "=== Installing K8S ==="
 ### CRI-O/K8S/WireGuard
-for PKG in cri-o cri-tools kubectl-${K8S_VERSION} kubelet-${K8S_VERSION} kubeadm-${K8S_VERSION} wireguard-tools kmod-wireguard; do
+for PKG in cri-o cri-tools kubectl-${K8S_VERSION} kubelet-${K8S_VERSION} kubeadm-${K8S_VERSION} wireguard-tools; do
 	rpm -q $PKG || yum -y install $PKG --disableexcludes=kubernetes
 done
 ### Calico client
@@ -184,9 +184,24 @@ if [ "$K8S_NODE_ROLE" = "master" ]; then
 
 	## Install OpenEBS
 	echo "=== Installing OpenEBS ==="
-	helm repo add openebs https://openebs.github.io/charts
+	cat > openebs.yaml <<-EOF
+    localpv-provisioner:
+      hostpathClass:
+        isDefaultClass: true
+    engines:
+      local:
+        lvm:
+          enabled: false
+        zfs:
+          enabled: false
+      replicated:
+        mayastor:
+          enabled: false
+	EOF
+	helm repo add openebs https://openebs.github.io/openebs
 	helm repo update openebs
-	helm upgrade openebs openebs/openebs --install --version $OPENEBS_VERSION --namespace openebs --create-namespace --set localprovisioner.hostpathClass.isDefaultClass=true
+	helm upgrade openebs openebs/openebs --install --version $OPENEBS_VERSION --namespace openebs --create-namespace -f openebs.yaml
+	rm -f openebs.yaml
 
 elif [ "$K8S_NODE_ROLE" = "worker" ]; then
 	## Worker
