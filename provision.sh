@@ -14,11 +14,11 @@ echo "=== Adding repositories ==="
 cat > /etc/yum.repos.d/cri-o.repo <<EOF
 [cri-o]
 name=CRI-O
-baseurl=https://pkgs.k8s.io/addons:/cri-o:/stable:/v${K8S_VERSION_MINOR}/rpm/
+baseurl=https://download.opensuse.org/repositories/isv:/cri-o:/stable:/v${K8S_VERSION_MINOR}/rpm/
 enabled=1
 gpgcheck=1
 repo_gpgcheck=1
-gpgkey=https://pkgs.k8s.io/addons:/cri-o:/stable:/v${K8S_VERSION_MINOR}/rpm/repodata/repomd.xml.key
+gpgkey=https://download.opensuse.org/repositories/isv:/cri-o:/stable:/v${K8S_VERSION_MINOR}/rpm/repodata/repomd.xml.key
 EOF
 ## Kubernetes
 cat > /etc/yum.repos.d/kubernetes.repo <<EOF
@@ -197,6 +197,10 @@ if [ "$K8S_NODE_ROLE" = "master" ]; then
       replicated:
         mayastor:
           enabled: false
+    loki:
+      enabled: false
+    alloy:
+      enabled: false
 	EOF
 	helm repo add openebs https://openebs.github.io/openebs
 	helm repo update openebs
